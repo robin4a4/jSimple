@@ -1,3 +1,5 @@
+import { $ } from "./core";
+
 declare global {
   interface Array<T> {
     first: () => Node;
@@ -16,4 +18,4 @@ declare global {
   }
 }
 
-export {};
+export { $ };

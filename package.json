@@ -8,6 +8,9 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "exports": {
+    "core": "./lib/core"
+  },
   "devDependencies": {
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
