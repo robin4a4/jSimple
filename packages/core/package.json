@@ -1,5 +1,5 @@
 {
-  "name": "lab",
+  "name": "jsimple-core",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,11 +8,11 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "exports": {
+    ".": "./src"
+  },
   "devDependencies": {
     "typescript": "^4.6.4",
     "vite": "^3.1.0"
-  },
-  "dependencies": {
-    "jSimple": "file:../"
   }
 }

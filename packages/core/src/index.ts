@@ -1,4 +1,4 @@
-import { $ } from "./core";
+import $ from "./core";
 
 declare global {
   interface Array<T> {
@@ -16,6 +16,10 @@ declare global {
     html: (html: string) => HTMLElement;
     empty: () => HTMLElement;
   }
+  interface Element {
+    on: (event: string, callback: () => void) => void;
+    click: (callback: () => void) => void;
+  }
 }
 
-export { $ };
+export default $;

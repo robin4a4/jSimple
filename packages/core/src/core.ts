@@ -10,6 +10,18 @@ const create = <TCollection extends HTMLCollection>(htmlString: string) => {
   return template.content.children as TCollection;
 };
 
+function isObjKey<T>(key: PropertyKey, obj: T): key is keyof T {
+  return key in obj;
+}
+
+type TEachCallback<TObj> = (key: keyof TObj, value: TObj[keyof TObj]) => any;
+
+const each = <TObj>(obj: TObj, callback: TEachCallback<TObj>) => {
+  for (const [key, value] of Object.entries(obj)) {
+    if (isObjKey(key, obj)) callback(key, value);
+  }
+};
+
 Array.prototype.first = function () {
   return this[0];
 };
@@ -51,8 +63,19 @@ HTMLElement.prototype.empty = function () {
   return this;
 };
 
-export const $ = {
+Element.prototype.on = function (event: string, callback: () => void) {
+  this.addEventListener(event, callback);
+};
+
+Element.prototype.click = function (callback: () => void) {
+  this.on("click", callback);
+};
+
+const $ = {
   select,
   selectAll,
   create,
+  each,
 };
+
+export default $;
