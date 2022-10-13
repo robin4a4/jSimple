@@ -1,8 +1,9 @@
 const select = <TElement extends HTMLElement>(selector: string) =>
-  document.querySelector(selector) as TElement | null;
+  document.querySelector<TElement>(selector);
 
-const selectAll = <TElement extends HTMLElement>(selector: string) =>
-  [...document.querySelectorAll(selector)] as Array<TElement> | null;
+const selectAll = <TElement extends HTMLElement>(selector: string) => [
+  ...document.querySelectorAll<TElement>(selector),
+];
 
 const create = <TCollection extends HTMLCollection>(htmlString: string) => {
   const template = document.createElement("template");
@@ -10,15 +11,19 @@ const create = <TCollection extends HTMLCollection>(htmlString: string) => {
   return template.content.children as TCollection;
 };
 
-function isObjKey<T>(key: PropertyKey, obj: T): key is keyof T {
-  return key in obj;
+type Entries<T> = {
+  [K in keyof T]: [K, T[K]];
+}[keyof T][];
+
+function entries<TObj>(obj: TObj): Entries<TObj> {
+  return Object.entries(obj) as any;
 }
 
 type TEachCallback<TObj> = (key: keyof TObj, value: TObj[keyof TObj]) => any;
 
 const each = <TObj>(obj: TObj, callback: TEachCallback<TObj>) => {
-  for (const [key, value] of Object.entries(obj)) {
-    if (isObjKey(key, obj)) callback(key, value);
+  for (const [key, value] of entries(obj)) {
+    callback(key, value);
   }
 };
 
@@ -63,11 +68,14 @@ HTMLElement.prototype.empty = function () {
   return this;
 };
 
-Element.prototype.on = function (event: string, callback: () => void) {
-  this.addEventListener(event, callback);
+HTMLElement.prototype.on = function (
+  event: string,
+  callback: (ev: Event) => void
+) {
+  this.addEventListener(event, (ev) => callback(ev));
 };
 
-Element.prototype.click = function (callback: () => void) {
+HTMLElement.prototype.onClick = function (callback: () => void) {
   this.on("click", callback);
 };
 

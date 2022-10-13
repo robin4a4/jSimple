@@ -1,23 +1,9 @@
 import "./style.css";
 import typescriptLogo from "./typescript.svg";
 import { setupCounter } from "./counter";
-import $ from "jsimple";
+import $ from "jsimple-core";
 
-type TObj = {
-  a: string;
-  b: string;
-};
-
-const obj: TObj = {
-  a: "test",
-  b: "pip",
-};
-
-$.each<TObj>(obj, (key, value) => {
-  console.log(key, value);
-});
-
-$.select<HTMLDivElement>("#app")!.html(
+$.select<TDiv>("#app")!.html(
   `
   <div>
     <a href="https://vitejs.dev" target="_blank">
@@ -37,4 +23,56 @@ $.select<HTMLDivElement>("#app")!.html(
 `
 );
 
-setupCounter($.select<HTMLButtonElement>("#counter")!);
+setupCounter($.select<TButton>("#counter")!);
+
+let reactiveValues = { count: 5 };
+let target = null;
+
+class Dep {
+  constructor() {
+    this.subscribers = [];
+  }
+
+  depend() {
+    if (target && !this.subscribers.includes(target)) {
+      this.subscribers.push(target);
+    }
+  }
+
+  notify() {
+    this.subscribers.forEach((sub) => sub());
+  }
+}
+
+Object.keys(reactiveValues).forEach((key) => {
+  let internalValue = reactiveValues[key];
+  const dep = new Dep();
+
+  Object.defineProperty(reactiveValues, key, {
+    get() {
+      dep.depend();
+      return internalValue;
+    },
+    set(newVal) {
+      internalValue = newVal;
+      dep.notify();
+    },
+  });
+});
+
+function watcher(func) {
+  target = func;
+  target();
+  target = null;
+}
+
+watcher(() => {
+  reactiveValues.doubleCount = reactiveValues.count * 2;
+});
+
+$.select<TButton>("#btn")
+  .html(reactiveValues.doubleCount)
+  .onClick((ev) => {
+    reactiveValues.count++;
+    ev.target.html(reactiveValues.doubleCount);
+  });

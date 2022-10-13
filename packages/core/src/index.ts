@@ -15,11 +15,12 @@ declare global {
     toggleClass: (classes: string) => HTMLElement;
     html: (html: string) => HTMLElement;
     empty: () => HTMLElement;
-  }
-  interface Element {
     on: (event: string, callback: () => void) => void;
-    click: (callback: () => void) => void;
+    onClick: (callback: () => void) => void;
   }
+
+  export type TDiv = HTMLDivElement;
+  export type TButton = HTMLButtonElement;
 }
 
 export default $;
