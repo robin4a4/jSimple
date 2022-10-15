@@ -24,55 +24,15 @@ $.select<TDiv>("#app")!.html(
 );
 
 setupCounter($.select<TButton>("#counter")!);
+const btn = $.select<TButton>("#btn");
 
-let reactiveValues = { count: 5 };
-let target = null;
+const [count, setCount] = $.signal(1);
+const doubleCount = () => count() * 2;
 
-class Dep {
-  constructor() {
-    this.subscribers = [];
-  }
-
-  depend() {
-    if (target && !this.subscribers.includes(target)) {
-      this.subscribers.push(target);
-    }
-  }
-
-  notify() {
-    this.subscribers.forEach((sub) => sub());
-  }
-}
-
-Object.keys(reactiveValues).forEach((key) => {
-  let internalValue = reactiveValues[key];
-  const dep = new Dep();
-
-  Object.defineProperty(reactiveValues, key, {
-    get() {
-      dep.depend();
-      return internalValue;
-    },
-    set(newVal) {
-      internalValue = newVal;
-      dep.notify();
-    },
-  });
+$.effect(() => {
+  btn.html(doubleCount());
 });
 
-function watcher(func) {
-  target = func;
-  target();
-  target = null;
-}
-
-watcher(() => {
-  reactiveValues.doubleCount = reactiveValues.count * 2;
+btn.onClick(() => {
+  setCount(count() + 1);
 });
-
-$.select<TButton>("#btn")
-  .html(reactiveValues.doubleCount)
-  .onClick((ev) => {
-    reactiveValues.count++;
-    ev.target.html(reactiveValues.doubleCount);
-  });
