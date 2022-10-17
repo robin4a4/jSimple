@@ -8,17 +8,14 @@ declare global {
     last: () => Node;
   }
   interface HTMLElement {
-    addClass: (classes: string) => HTMLElement;
-    removeClass: (classes: string) => HTMLElement;
-    toggleClass: (classes: string) => HTMLElement;
+    addClasses: (classes: string) => HTMLElement;
+    removeClasses: (classes: string) => HTMLElement;
+    toggleClasses: (classes: string) => HTMLElement;
     html: (html: string) => HTMLElement;
     empty: () => HTMLElement;
     on: (event: string, callback: () => void) => void;
     onClick: (callback: () => void) => void;
   }
-
-  export type TDiv = HTMLDivElement;
-  export type TButton = HTMLButtonElement;
 }
 
 /**
@@ -116,18 +113,24 @@ NodeList.prototype.last = function () {
   return [...this][this.length - 1];
 };
 
-HTMLElement.prototype.addClass = function (classes: string) {
-  this.classList.add(classes);
+HTMLElement.prototype.addClasses = function (classes: string) {
+  classes.split(" ").forEach((className) => {
+    this.classList.add(className);
+  });
   return this;
 };
 
-HTMLElement.prototype.removeClass = function (classes: string) {
-  this.classList.remove(classes);
+HTMLElement.prototype.removeClasses = function (classes: string) {
+  classes.split(" ").forEach((className) => {
+    this.classList.remove(className);
+  });
   return this;
 };
 
-HTMLElement.prototype.toggleClass = function (classes: string) {
-  this.classList.toggle(classes);
+HTMLElement.prototype.toggleClasses = function (classes: string) {
+  classes.split(" ").forEach((className) => {
+    this.classList.toggle(className);
+  });
   return this;
 };
 
