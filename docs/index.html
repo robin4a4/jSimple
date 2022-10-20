@@ -8,9 +8,17 @@
     <title>Vite + TS</title>
   </head>
   <body>
-    <span></span>
     <div id="app">
     </div>
     <script type="module" src="/src/main.ts"></script>
+
+    <button type="button">Expand</button>
+    <span j-display="open()">
+      Content...
+    </span>
+    <script>
+      const [open, setOpen] = $.signal(false);
+      $.select("button").onClick(() => setOpen(!open()));
+    </script>
   </body>
 </html>
