@@ -12,13 +12,9 @@
     </div>
     <script type="module" src="/src/main.ts"></script>
 
-    <button type="button">Expand</button>
+    <button type="button" onclick="setOpen(true)">Expand</button>
     <span j-display="open()">
       Content...
     </span>
-    <script>
-      const [open, setOpen] = $.signal(false);
-      $.select("button").onClick(() => setOpen(!open()));
-    </script>
   </body>
 </html>

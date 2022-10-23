@@ -1,18 +1,21 @@
 {
-  "name": "jsimple",
+  "name": "@jsimple/core",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
   "exports": {
-    ".": "./src"
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "npm run build --watch",
+    "build": "tsup src/index.ts --format esm --dts"
   },
   "devDependencies": {
-    "typescript": "^4.6.4",
-    "vite": "^3.1.0"
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "tsup": "^6.3.0"
   }
 }

@@ -21,10 +21,10 @@ declare global {
 /**
  * Type helpers
  */
-type Entries<T> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T][];
-type TEachCallback<TObj> = (key: keyof TObj, value: TObj[keyof TObj]) => any;
+// type Entries<T> = {
+//   [K in keyof T]: [K, T[K]];
+// }[keyof T][];
+// type TEachCallback<TObj> = (key: keyof TObj, value: TObj[keyof TObj]) => any;
 type TExecuteEffect = () => void;
 type TObserver = { execute: TExecuteEffect };
 
@@ -44,15 +44,15 @@ const create = <TCollection extends HTMLCollection>(htmlString: string) => {
   return template.content.children as TCollection;
 };
 
-function entries<TObj extends {}>(obj: TObj): Entries<TObj> {
-  return Object.entries(obj) as any;
-}
+// function entries<TObj extends {}>(obj: TObj): Entries<TObj> {
+//   return Object.entries(obj) as any;
+// }
 
-const each = <TObj>(obj: TObj, callback: TEachCallback<TObj>) => {
-  for (const [key, value] of entries(obj)) {
-    callback(key, value);
-  }
-};
+// const each = <TObj>(obj: TObj, callback: TEachCallback<TObj>) => {
+//   for (const [key, value] of entries(obj)) {
+//     callback(key, value);
+//   }
+// };
 
 /**
  * reactivity methods
@@ -159,7 +159,7 @@ const $ = {
   select,
   selectAll,
   create,
-  each,
+  // each,
   signal,
   effect,
 };
