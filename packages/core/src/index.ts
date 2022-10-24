@@ -60,10 +60,12 @@ const create = <TCollection extends HTMLCollection>(htmlString: string) => {
 
 const globalContext: Array<TObserver> = [];
 
-const signal = function <TSignalValue>(value: TSignalValue) {
+const signal = function <TSignalValue>(
+  value: TSignalValue
+): [() => TSignalValue, (newValue: TSignalValue) => void] {
   const subscriptions = new Set<TObserver>();
 
-  const read = () => {
+  const read = (): TSignalValue => {
     const observer = globalContext[globalContext.length - 1];
     if (observer) subscriptions.add(observer);
     return value;
@@ -162,6 +164,58 @@ const $ = {
   // each,
   signal,
   effect,
+};
+
+/**
+ * Reactive dom attribute
+ *
+ * TODO: manage open() native function and others
+ * TODO: reattach listeners when a new node is added to the dom
+ */
+enum JAttributes {
+  Signal = "j-signal",
+  Content = "j-content",
+  Show = "j-show",
+  Click = "j-click",
+}
+
+// const everyContentElements = document.querySelectorAll<HTMLElement>(
+//   `[${JAttributes.Content}]`
+// );
+// everyContentElements.forEach((reactiveEl) => {
+//   const signal = reactiveEl.getAttribute(`${JAttributes.Content}`);
+//   if (signal) {
+//     const signalName = signal.replace("()", "") as keyof Window;
+//     if (window[signalName]) {
+//       $.effect(() => {
+//         const executedSignal = eval(signal);
+//         reactiveEl.html(executedSignal);
+//       });
+//     }
+//   }
+// });
+
+// @ts-ignore
+export const DOMReact = (getter, setter, getterString, setterString) => {
+  const everyClickElements = document.querySelectorAll<HTMLElement>(
+    `[${JAttributes.Click}]`
+  );
+
+  everyClickElements.forEach((clickEl) => {
+    clickEl.onClick(() => setter(!getter()));
+  });
+  const everyShowElements = document.querySelectorAll<HTMLElement>(
+    `[${JAttributes.Show}]`
+  );
+
+  everyShowElements.forEach((reactiveEl) => {
+    const signal = reactiveEl.getAttribute(`${JAttributes.Show}`);
+    if (getterString === signal) {
+      $.effect(() => {
+        reactiveEl.style.display = getter() ? "block" : "none";
+      });
+    }
+  });
 };
 
 export default $;

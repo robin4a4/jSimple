@@ -12,9 +12,22 @@
     </div>
     <script type="module" src="/src/main.ts"></script>
 
-    <button type="button" onclick="setOpen(true)">Expand</button>
-    <span j-display="open()">
+    <button type="button" j-click="setIsOpen(true)">Expand</button>
+    <span j-show="isOpen">
       Content...
     </span>
   </body>
 </html>
+<!-- 
+<label j-signal="[isEditable, setIsEditable]" class="ds-input-edit" j-classes="isEditable() && 'ds-input-edit--editable'">
+  <div class="ds-input-edit__input-container">
+      <input class="ds-input-edit" type="text" placeholder="-" j-disabled="isEditable()"/>
+      <span class="ds-input-edit__unit">€</span>
+  </div>
+  <button type="button" class="ds-input-edit__pen-button" j-display="!isEditable()" onclick="setIsEditable(true)">
+      {% include "firebolt/icons/clickable/pen.svg" %}
+  </button>
+  <button type="button" class="ds-link" j-display="isEditable()" onclick="setIsEditable(false)">
+      Valider
+  </button>
+</label> -->
