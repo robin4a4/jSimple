@@ -1,3 +1,6 @@
+// @ts-ignore
+import { tmpl } from "riot-tmpl";
+
 declare global {
   interface Array<T> {
     first: () => Node;
@@ -21,10 +24,6 @@ declare global {
 /**
  * Type helpers
  */
-// type Entries<T> = {
-//   [K in keyof T]: [K, T[K]];
-// }[keyof T][];
-// type TEachCallback<TObj> = (key: keyof TObj, value: TObj[keyof TObj]) => any;
 type TExecuteEffect = () => void;
 type TObserver = { execute: TExecuteEffect };
 
@@ -43,16 +42,6 @@ const create = <TCollection extends HTMLCollection>(htmlString: string) => {
   template.innerHTML = htmlString.trim();
   return template.content.children as TCollection;
 };
-
-// function entries<TObj extends {}>(obj: TObj): Entries<TObj> {
-//   return Object.entries(obj) as any;
-// }
-
-// const each = <TObj>(obj: TObj, callback: TEachCallback<TObj>) => {
-//   for (const [key, value] of entries(obj)) {
-//     callback(key, value);
-//   }
-// };
 
 /**
  * reactivity methods
@@ -161,7 +150,6 @@ const $ = {
   select,
   selectAll,
   create,
-  // each,
   signal,
   effect,
 };
@@ -170,52 +158,50 @@ const $ = {
  * Reactive dom attribute
  *
  * TODO: manage open() native function and others
- * TODO: reattach listeners when a new node is added to the dom
  */
-enum JAttributes {
-  Signal = "j-signal",
-  Content = "j-content",
-  Show = "j-show",
-  Click = "j-click",
+export function DOMRender<TContext>(context: TContext, mount: HTMLElement) {
+  let next = mount.firstChild as HTMLElement;
+  let stop;
+  while (next) {
+    // @ts-ignore
+    if ((stop = processNode<TContext>(next, context))) {
+      // @ts-ignore
+      next = stop.nextSibling;
+      stop = undefined;
+    } else next = DOMRender(context, next) || next.nextSibling;
+  }
+  return next;
 }
 
-// const everyContentElements = document.querySelectorAll<HTMLElement>(
-//   `[${JAttributes.Content}]`
-// );
-// everyContentElements.forEach((reactiveEl) => {
-//   const signal = reactiveEl.getAttribute(`${JAttributes.Content}`);
-//   if (signal) {
-//     const signalName = signal.replace("()", "") as keyof Window;
-//     if (window[signalName]) {
-//       $.effect(() => {
-//         const executedSignal = eval(signal);
-//         reactiveEl.html(executedSignal);
-//       });
-//     }
-//   }
-// });
+function processNode<TContext>(el: HTMLElement, context: TContext) {
+  const type = el.nodeType;
 
-// @ts-ignore
-export const DOMReact = (getter, setter, getterString, setterString) => {
-  const everyClickElements = document.querySelectorAll<HTMLElement>(
-    `[${JAttributes.Click}]`
-  );
-
-  everyClickElements.forEach((clickEl) => {
-    clickEl.onClick(() => setter(!getter()));
-  });
-  const everyShowElements = document.querySelectorAll<HTMLElement>(
-    `[${JAttributes.Show}]`
-  );
-
-  everyShowElements.forEach((reactiveEl) => {
-    const signal = reactiveEl.getAttribute(`${JAttributes.Show}`);
-    if (getterString === signal) {
+  // element
+  if (type === 1) {
+    for (const { name, value } of [...el.attributes]) {
+      const jAttr = name.slice(2);
+      const eventList = ["click", "mouseover", "mouseout", "change", "keydown"];
+      if (eventList.find((eventName) => eventName === jAttr)) {
+        el.addEventListener(jAttr, () => tmpl(`{${value}}`, context));
+      }
+      if (jAttr === "display") {
+        $.effect(() => {
+          el.style.display = tmpl(`{${value}}`, context) ? "block" : "none";
+        });
+      }
+    }
+  }
+  // text node
+  else {
+    // @ts-ignore
+    const text = el.data;
+    if (tmpl.hasExpr(text)) {
       $.effect(() => {
-        reactiveEl.style.display = getter() ? "block" : "none";
+        // @ts-ignore
+        el.data = tmpl(text, context);
       });
     }
-  });
-};
+  }
+}
 
 export default $;

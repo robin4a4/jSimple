@@ -1,4 +1,6 @@
-import $, { DOMReact } from "@jsimple/core";
+import $, { DOMRender } from "@jsimple/core";
 
 const [isOpen, setIsOpen] = $.signal(false);
-DOMReact(isOpen, setIsOpen, "isOpen", "setIsOpen");
+const [name, setName] = $.signal("button");
+
+DOMRender({ name, setName, isOpen, setIsOpen }, $.select("#app")!);
