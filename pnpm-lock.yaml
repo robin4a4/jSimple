@@ -12,7 +12,7 @@ importers:
 
   docs:
     specifiers:
-      '@jsimple/core': workspace:*
+      '@jsimple/custom-element': workspace:*
       autoprefixer: ^10.4.12
       postcss: ^8.4.18
       riot-tmpl: ^3.0.8
@@ -20,7 +20,7 @@ importers:
       typescript: ^4.6.4
       vite: ^3.1.0
     devDependencies:
-      '@jsimple/core': link:../packages/core
+      '@jsimple/custom-element': link:../packages/custom-element
       autoprefixer: 10.4.12_postcss@8.4.18
       postcss: 8.4.18
       riot-tmpl: 3.0.8
@@ -38,6 +38,15 @@ importers:
       tsup: 6.3.0_typescript@4.8.4
     devDependencies:
       typescript: 4.8.4
+
+  packages/custom-element:
+    specifiers:
+      '@jsimple/core': workspace:*
+      tsup: ^6.3.0
+    dependencies:
+      tsup: 6.3.0
+    devDependencies:
+      '@jsimple/core': link:../core
 
 packages:
 
@@ -1062,6 +1071,41 @@ packages:
 
   /ts-interface-checker/0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
+    dev: false
+
+  /tsup/6.3.0:
+    resolution: {integrity: sha512-IaNQO/o1rFgadLhNonVKNCT2cks+vvnWX3DnL8sB87lBDqRvJXHENr5lSPJlqwplUlDxSwZK8dSg87rgBu6Emw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': ^1
+      postcss: ^8.4.12
+      typescript: ^4.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      postcss:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      bundle-require: 3.1.0_esbuild@0.15.12
+      cac: 6.7.14
+      chokidar: 3.5.3
+      debug: 4.3.4
+      esbuild: 0.15.12
+      execa: 5.1.1
+      globby: 11.1.0
+      joycon: 3.1.1
+      postcss-load-config: 3.1.4
+      resolve-from: 5.0.0
+      rollup: 2.79.1
+      source-map: 0.8.0-beta.0
+      sucrase: 3.28.0
+      tree-kill: 1.2.2
+    transitivePeerDependencies:
+      - supports-color
+      - ts-node
     dev: false
 
   /tsup/6.3.0_typescript@4.8.4:

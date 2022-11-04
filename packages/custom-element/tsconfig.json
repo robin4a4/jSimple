@@ -3,9 +3,12 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "target": "ESNext",
+    "outDir": "dist",
     "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+        "ESNext", "dom", "dom.iterable"
+    ],
     "moduleResolution": "Node",
     "strict": true,
     "sourceMap": true,

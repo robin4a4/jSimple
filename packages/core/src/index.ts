@@ -226,15 +226,12 @@ const $ = {
  * TODO: manage open() native function and others
  */
 export function DOMRender<TContext>(context: TContext, mount: HTMLElement) {
+  let current;
   let next = mount.firstChild as HTMLElement;
-  let stop;
   while (next) {
-    // @ts-ignore
-    if ((stop = processNode<TContext>(next, context))) {
-      // @ts-ignore
-      next = stop.nextSibling;
-      stop = undefined;
-    } else next = DOMRender(context, next) || next.nextSibling;
+    current = next;
+    processNode<TContext>(current, context);
+    next = DOMRender(context, current) || next.nextSibling;
   }
   return next;
 }
@@ -266,14 +263,14 @@ function processNode<TContext>(el: HTMLElement, context: TContext) {
     }
   }
   // text node
-  else {
-    // @ts-ignore
-    const text = el.data;
-    if (tmpl.hasExpr(text)) {
-      $.effect(() => {
-        // @ts-ignore
-        el.data = tmpl(text, context);
-      });
+  else if (type === 3) {
+    if (tmpl.hasExpr(el.innerText)) {
+      const text = el.innerText;
+      if (/(\(.*\))?(\.)?/g.test(text)) {
+        $.effect(() => {
+          el.innerText = tmpl(text, context);
+        });
+      } else el.innerText = tmpl(text, context);
     }
   }
 }
