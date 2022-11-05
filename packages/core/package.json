@@ -10,10 +10,13 @@
   },
   "scripts": {
     "dev": "npm run build --watch",
-    "build": "tsup src/index.ts --format esm --dts"
+    "build": "tsup src/index.ts --format esm --dts",
+    "test": "vitest"
   },
   "devDependencies": {
-    "typescript": "^4.6.4"
+    "@testing-library/dom": "^8.19.0",
+    "typescript": "^4.6.4",
+    "vitest": "^0.24.5"
   },
   "dependencies": {
     "riot-tmpl": "^3.0.8",
