@@ -2,17 +2,32 @@
 A small library inspired by jQuery and Solidjs.
 
 ## Get started
-
-Install the libary with the following command:
+To install the core library enter the following command:
 
 ```
-npm install jsimple
+npm install @jsimple/core
 ```
+
+To install the additional dom rendering library enter the following command:
+
+```
+npm install @jsimple/dom-render
+```
+
+To install the additional custom element library enter the following command:
+
+```
+npm install @jsimple/custom-element
+```
+
 
 ## Example
 
+### Core
+The core library includes a reactive system that makes building dom interaction easier.
+
 ```javascript
-import $ from "jsimple";
+import $ from "@jsimple/core";
 
 const [isOpen, setIsOpen] = $.signal(false);
 
@@ -23,7 +38,7 @@ $.effect(() => {
   app.html(`
   <div>
     <button id="btn" type="button">open</button>
-    <div class="card" style='display: ${isOpen() ? "block" : "none"}'>
+    <div style='display: ${isOpen() ? "block" : "none"}'>
       Lorem ipsum
     </div>
   </div>
@@ -36,6 +51,52 @@ $.effect(() => {
 
 ```
 
+### DOM-render
+Using the dom-render package you can simplify this markup like the following example. It is heavily inspired by Alpinejs.
+
+```html
+<!-- HTML file-->
+<div id="app">
+  <button id="btn" type="button" $click="setIsOpen(!isOpen())">open</button>
+  <div $display="isOpen()">lorem ipsum</div>
+</div>
+```
+
+```javascript
+// Javascript file
+import { DOMRender } from "@jsimple/dom-render";
+
+const [isOpen, setIsOpen] = $.signal(false);
+DOMRender({isOpen, setIsOpen}, $.select("#app"))
+```
+
+### Custom element
+If you'd like to use the dom-render APIs in custom elements we provide decorators wrappers to abstract some of the plumbing:
+
+```html
+<!-- HTML file-->
+<fancy-button></fancy-button>
+```
+
+```javascript
+// Javascript file
+import { define, signal } from "@jsimple/custom-element";
+
+@define("fancy-button")
+export class FancyButton extends HTMLElement {
+  @signal(false) isOpenSignal: any;
+
+  connectedCallback() {
+    this.innerHTML = `
+    <div>
+      <button type="button" $click="setIsOpen(!isOpen())">open</button>
+      <div $display="isOpen()">lorem ipsum</div>
+    </div>
+    `;
+  }
+}
+```
+
 ## API
 
 ### jSimple object
@@ -43,7 +104,7 @@ $.effect(() => {
 The `jSimple` object or its alias `$` host every utils method.
 
 ```
-import $ from "jsimple"
+import $ from "@jsimple/core"
 ```
 
 `$.select()`

@@ -1,5 +1,5 @@
 {
-  "name": "@jsimple/custom-element",
+  "name": "@jsimple/dom-render",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -13,6 +13,9 @@
     "build": "tsup src/index.ts --format esm --dts"
   },
   "devDependencies": {
-    "@jsimple/dom-render": "workspace:*"
+    "@jsimple/core": "workspace:*"
+  },
+  "dependencies": {
+    "riot-tmpl": "^3.0.8"
   }
 }
