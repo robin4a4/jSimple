@@ -225,9 +225,17 @@ const $ = {
  *
  * TODO: manage open() native function and others
  */
-export function DOMRender<TContext>(context: TContext, mount: HTMLElement) {
+
+interface HTMLElementWithData extends HTMLElement {
+  data: string;
+}
+
+export function DOMRender<TContext>(
+  context: TContext,
+  mount: HTMLElementWithData
+) {
   let current;
-  let next = mount.firstChild as HTMLElement;
+  let next = mount.firstChild as HTMLElementWithData;
   while (next) {
     current = next;
     processNode<TContext>(current, context);
@@ -236,7 +244,7 @@ export function DOMRender<TContext>(context: TContext, mount: HTMLElement) {
   return next;
 }
 
-function processNode<TContext>(el: HTMLElement, context: TContext) {
+function processNode<TContext>(el: HTMLElementWithData, context: TContext) {
   const type = el.nodeType;
 
   // element
@@ -264,13 +272,12 @@ function processNode<TContext>(el: HTMLElement, context: TContext) {
   }
   // text node
   else if (type === 3) {
-    if (tmpl.hasExpr(el.innerText)) {
-      const text = el.innerText;
-      if (/(\(.*\))?(\.)?/g.test(text)) {
+    if (tmpl.hasExpr(el.data)) {
+      if (/(\(.*\))?(\.)?/g.test(el.data)) {
         $.effect(() => {
-          el.innerText = tmpl(text, context);
+          el.data = tmpl(el.data, context);
         });
-      } else el.innerText = tmpl(text, context);
+      } else el.data = tmpl(el.data, context);
     }
   }
 }

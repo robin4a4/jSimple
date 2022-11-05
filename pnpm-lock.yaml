@@ -12,6 +12,7 @@ importers:
 
   docs:
     specifiers:
+      '@jsimple/core': workspace:*
       '@jsimple/custom-element': workspace:*
       autoprefixer: ^10.4.12
       postcss: ^8.4.18
@@ -20,6 +21,7 @@ importers:
       typescript: ^4.6.4
       vite: ^3.1.0
     devDependencies:
+      '@jsimple/core': link:../packages/core
       '@jsimple/custom-element': link:../packages/custom-element
       autoprefixer: 10.4.12_postcss@8.4.18
       postcss: 8.4.18

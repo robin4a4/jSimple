@@ -2,8 +2,8 @@ import { define, signal, callback } from "@jsimple/custom-element";
 
 @define("fancy-button")
 export class FancyButton extends HTMLElement {
-  @signal nameSignal: any;
-  @signal isOpenSignal: any;
+  @signal("bonjour") nameSignal: any;
+  @signal(false) isOpenSignal: any;
 
   @callback
   handleClick() {
@@ -11,11 +11,11 @@ export class FancyButton extends HTMLElement {
   }
 
   connectedCallback() {
-    this.html(`
+    this.innerHTML = `
     <div>
-    <button type="button" $click="handleClick()">test</button>
+    <button type="button" $click="handleClick()">{name()}</button>
     <div $display="isOpen()">lorem ipsum</div>
     </div>
-    `);
+    `;
   }
 }
