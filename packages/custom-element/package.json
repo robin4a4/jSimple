@@ -13,6 +13,10 @@
     "build": "tsup src/index.ts --format esm --dts"
   },
   "devDependencies": {
-    "@jsimple/dom-render": "workspace:*"
+    "@jsimple/dom-render": "workspace:*",
+    "@jsimple/core": "workspace:*"
+  },
+  "dependencies": {
+    "tsup": "^6.3.0"
   }
 }

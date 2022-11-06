@@ -1,6 +1,6 @@
 // @ts-ignore
 import { tmpl } from "riot-tmpl";
-
+import $ from "@jsimple/core";
 /**
  * Reactive dom attribute
  *
@@ -41,10 +41,12 @@ function processNode<TContext>(el: HTMLElementWithData, context: TContext) {
           "keydown",
         ];
         if (eventList.find((eventName) => eventName === jAttr)) {
+          console.log("click", value, context);
           el.addEventListener(jAttr, () => tmpl(`{${value}}`, context));
         }
         if (jAttr === "display") {
           $.effect(() => {
+            console.log("rerender", value);
             el.style.display = tmpl(`{${value}}`, context) ? "block" : "none";
           });
         }

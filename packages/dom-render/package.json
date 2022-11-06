@@ -16,6 +16,7 @@
     "@jsimple/core": "workspace:*"
   },
   "dependencies": {
-    "riot-tmpl": "^3.0.8"
+    "riot-tmpl": "^3.0.8",
+    "tsup": "^6.3.0"
   }
 }

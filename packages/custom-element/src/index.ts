@@ -1,4 +1,5 @@
-import $, { DOMRender } from "@jsimple/core";
+import $ from "@jsimple/core";
+import { DOMRender } from "@jsimple/dom-render";
 
 const symbol = Symbol.for("jsimple");
 

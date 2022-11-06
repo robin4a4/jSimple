@@ -69,6 +69,7 @@ const signal = function <TSignalValue>(
 };
 
 const effect = function effect(func: any) {
+  console.log(globalContext);
   const execute: TExecuteEffect = () => {
     globalContext.push(observer);
     try {
