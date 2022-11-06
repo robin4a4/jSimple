@@ -1,7 +1,7 @@
 declare global {
   interface Array<T> {
-    first: () => Node;
-    last: () => Node;
+    first: () => T;
+    last: () => T;
   }
   interface NodeList {
     first: () => Node;
