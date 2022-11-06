@@ -1,5 +1,5 @@
 # jSimple
-A small library inspired by jQuery and Solidjs.
+An small experimental library inspired by jQuery, Solidjs and @github/catalyst. It can't be used in production as it is not fully typesafe and robust.
 
 ## Get started
 To install the core library enter the following command:
@@ -27,28 +27,31 @@ npm install @jsimple/custom-element
 The core library includes a reactive system that makes building dom interaction easier.
 
 ```javascript
+// Javascript file
 import $ from "@jsimple/core";
 
+const btn = $.select("#btn");
+const container = $.select("#container");
 const [isOpen, setIsOpen] = $.signal(false);
 
 $.effect(() => {
-  const app = $.select("#app");
-  const btn = $.select("#btn");
-
-  app.html(`
-  <div>
-    <button id="btn" type="button">open</button>
+  container?.html(`
     <div style='display: ${isOpen() ? "block" : "none"}'>
       Lorem ipsum
     </div>
-  </div>
-`);
-
-  btn.onClick(() => {
-    setIsOpen(!isOpen());
-  });
+  `);
 });
 
+btn?.onClick(() => {
+    setIsOpen(!isOpen());
+});
+
+```
+
+```html
+<!-- HTML file-->
+<button id="btn" type="button">open</button>
+<div id="container"></div>
 ```
 
 ### DOM-render
@@ -84,17 +87,55 @@ import { define, signal } from "@jsimple/custom-element";
 
 @define("fancy-button")
 export class FancyButton extends HTMLElement {
-  @signal(false) isOpenSignal: any;
+  @signal(false) isOpenSignal: TSignal<boolean>;
 
   connectedCallback() {
-    this.innerHTML = `
+    this.html(`
     <div>
       <button type="button" $click="setIsOpen(!isOpen())">open</button>
       <div $display="isOpen()">lorem ipsum</div>
     </div>
-    `;
+    `);
   }
 }
+```
+If you'd like to use it without decorators you can do as follow:
+
+```javascript
+import $ from "@jsimple/core";
+import { DOMRender } from "@jsimple/dom-render";
+
+export class FancyButton extends HTMLElement {
+  isOpen: TSignal<boolean>[0];
+  setIsOpen: TSignal<boolean>[1];
+
+  constructor() {
+    super();
+    [this.isOpen, this.setIsOpen] = $.signal(true);
+  }
+
+  handleClick() {
+    this.setIsOpen(!this.isOpen());
+  }
+
+  connectedCallback() {
+    this.html(`
+    <div>
+    <button type="button" $click="setIsOpen(!isOpen())">open</button>
+    <div $display="isOpen()">lorem ipsum</div>
+    </div>
+    `);
+    DOMRender(
+      {
+        isOpen: this.isOpen,
+        setIsOpen: this.setIsOpen,
+        handleClick: this.handleClick,
+      },
+      this
+    );
+  }
+}
+customElements.define("fancy-button", FancyButton);
 ```
 
 ## API

@@ -12,11 +12,9 @@
     "dev": "npm run build --watch",
     "build": "tsup src/index.ts --format esm --dts"
   },
-  "devDependencies": {
-    "@jsimple/dom-render": "workspace:*",
-    "@jsimple/core": "workspace:*"
-  },
   "dependencies": {
+    "@jsimple/core": "workspace:*",
+    "@jsimple/dom-render": "workspace:*",
     "tsup": "^6.3.0"
   }
 }

@@ -71,3 +71,35 @@ export class FancyButton extends HTMLElement {
 
 ### @callback
 
+
+export class FancyButton extends HTMLElement {
+  isOpen: any;
+  setIsOpen: any;
+
+  constructor() {
+    super();
+    [this.isOpen, this.setIsOpen] = $.signal(true);
+  }
+
+  handleClick() {
+    this.setIsOpen(!this.isOpen());
+  }
+
+  connectedCallback() {
+    this.html(`
+    <div>
+    <button type="button" $click="setIsOpen(!isOpen())">open</button>
+    <div $display="isOpen()">lorem ipsum</div>
+    </div>
+    `);
+    DOMRender(
+      {
+        isOpen: this.isOpen,
+        setIsOpen: this.setIsOpen,
+        handleClick: this.handleClick,
+      },
+      this
+    );
+  }
+}
+customElements.define("fancy-button", FancyButton);

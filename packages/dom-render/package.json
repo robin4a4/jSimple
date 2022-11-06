@@ -12,10 +12,8 @@
     "dev": "npm run build --watch",
     "build": "tsup src/index.ts --format esm --dts"
   },
-  "devDependencies": {
-    "@jsimple/core": "workspace:*"
-  },
   "dependencies": {
+    "@jsimple/core": "workspace:*",
     "riot-tmpl": "^3.0.8",
     "tsup": "^6.3.0"
   }

@@ -1,6 +1,3 @@
-// @ts-ignore
-import { tmpl } from "riot-tmpl";
-
 declare global {
   interface Array<T> {
     first: () => Node;
@@ -22,12 +19,6 @@ declare global {
 }
 
 /**
- * Type helpers
- */
-type TExecuteEffect = () => void;
-type TObserver = { execute: TExecuteEffect };
-
-/**
  * jSimple methods
  */
 const select = <TElement extends HTMLElement>(selector: string) =>
@@ -46,12 +37,18 @@ const create = <TCollection extends HTMLCollection>(htmlString: string) => {
 /**
  * reactivity methods
  */
+export type TSignal<TSignalValue> = [
+  () => TSignalValue,
+  (newValue: TSignalValue) => void
+];
+type TExecuteEffect = () => void;
+type TObserver = { execute: TExecuteEffect };
 
 const globalContext: Array<TObserver> = [];
 
 const signal = function <TSignalValue>(
   value: TSignalValue
-): [() => TSignalValue, (newValue: TSignalValue) => void] {
+): TSignal<TSignalValue> {
   const subscriptions = new Set<TObserver>();
 
   const read = (): TSignalValue => {
@@ -68,8 +65,7 @@ const signal = function <TSignalValue>(
   return [read, write];
 };
 
-const effect = function effect(func: any) {
-  console.log(globalContext);
+const effect = function (func: any) {
   const execute: TExecuteEffect = () => {
     globalContext.push(observer);
     try {
