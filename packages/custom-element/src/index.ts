@@ -47,11 +47,13 @@ export const define = (name: string) => {
   return function (cls: CustomElementConstructor) {
     const connectedCallback = cls.prototype.connectedCallback || function () {};
     cls.prototype.connectedCallback = function () {
+      this.setAttribute("data-define", "");
       const domSetData = new Set([
         ...meta(cls.prototype, Decorator.Signal),
         ...meta(cls.prototype, Decorator.Callback),
       ]);
       const domObjectData: any = {};
+
       for (let propertyString of domSetData) {
         domObjectData[propertyString] = cls.prototype[propertyString];
       }

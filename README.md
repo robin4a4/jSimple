@@ -1,5 +1,5 @@
 # jSimple
-An small experimental library inspired by jQuery, Solidjs and @github/catalyst. It can't be used in production as it is not fully typesafe and robust.
+An small experimental library inspired by jQuery, Solidjs and @github/catalyst. It can't be used in production as it is not fully typesafe, tested and robust.
 
 ## Get started
 To install the core library enter the following command:
@@ -67,6 +67,7 @@ Using the dom-render package you can simplify this markup like the following exa
 
 ```javascript
 // Javascript file
+import $ from "@jsimple/core";
 import { DOMRender } from "@jsimple/dom-render";
 
 const [isOpen, setIsOpen] = $.signal(false);
@@ -114,10 +115,6 @@ export class FancyButton extends HTMLElement {
     [this.isOpen, this.setIsOpen] = $.signal(true);
   }
 
-  handleClick() {
-    this.setIsOpen(!this.isOpen());
-  }
-
   connectedCallback() {
     this.html(`
     <div>
@@ -129,7 +126,6 @@ export class FancyButton extends HTMLElement {
       {
         isOpen: this.isOpen,
         setIsOpen: this.setIsOpen,
-        handleClick: this.handleClick,
       },
       this
     );

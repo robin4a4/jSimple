@@ -1,6 +1,5 @@
 {
   "name": "@jsimple/custom-element",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
@@ -10,7 +9,7 @@
   },
   "scripts": {
     "dev": "npm run build --watch",
-    "build": "tsup src/index.ts --format esm --dts"
+    "build": "tsup src/index.ts --format cjs --dts --minify"
   },
   "dependencies": {
     "@jsimple/core": "workspace:*",

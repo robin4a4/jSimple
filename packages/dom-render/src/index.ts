@@ -20,6 +20,9 @@ export function DOMRender<TContext>(
   let next = mount.firstChild as HTMLElementWithData;
   while (next) {
     current = next;
+    const type = current.nodeType;
+    if (type === 1 && current.hasAttribute("data-define")) break;
+
     processNode<TContext>(current, context);
     next = DOMRender(context, current) || next.nextSibling;
   }
