@@ -84,7 +84,7 @@ If you'd like to use the dom-render APIs in custom elements we provide decorator
 
 ```javascript
 // Javascript file
-import { define, signal } from "@jsimple/custom-element";
+import { define, s } from "@jsimple/custom-element";
 
 @define("fancy-button")
 export class FancyButton extends HTMLElement {
