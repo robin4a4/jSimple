@@ -9,11 +9,13 @@
   },
   "scripts": {
     "dev": "npm run build --watch",
-    "build": "tsup src/index.ts --format cjs --dts --minify"
+    "build": "tsup src/index.ts --format esm --dts --minify"
   },
   "dependencies": {
     "@jsimple/core": "workspace:*",
-    "@jsimple/dom-render": "workspace:*",
+    "@jsimple/dom-render": "workspace:*"
+  },
+  "devDependencies": {
     "tsup": "^6.3.0"
   }
 }

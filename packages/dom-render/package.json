@@ -1,6 +1,5 @@
 {
   "name": "@jsimple/dom-render",
-  "private": true,
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
@@ -10,11 +9,13 @@
   },
   "scripts": {
     "dev": "npm run build --watch",
-    "build": "tsup src/index.ts --format cjs --dts --minify"
+    "build": "tsup src/index.ts --format esm --dts --minify"
   },
   "dependencies": {
     "@jsimple/core": "workspace:*",
-    "riot-tmpl": "^3.0.8",
+    "riot-tmpl": "^3.0.8"
+  },
+  "devDependencies": {
     "tsup": "^6.3.0"
   }
 }

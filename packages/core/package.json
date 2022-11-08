@@ -1,7 +1,9 @@
 {
   "name": "@jsimple/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
+  "author": "Robin Marillia <robin4a4@gmail.com>",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -9,17 +11,14 @@
   },
   "scripts": {
     "dev": "npm run build --watch",
-    "build": "tsup src/index.ts --format cjs --dts --minify",
+    "build": "tsup src/index.ts --format esm --dts --minify",
     "test": "vitest"
   },
   "devDependencies": {
     "@testing-library/dom": "^8.19.0",
     "jsdom": "^20.0.2",
     "typescript": "^4.6.4",
-    "vitest": "^0.24.5"
-  },
-  "dependencies": {
-    "riot-tmpl": "^3.0.8",
+    "vitest": "^0.24.5",
     "tsup": "^6.3.0"
   }
 }
