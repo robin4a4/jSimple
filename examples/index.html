@@ -11,7 +11,7 @@
     <title>jSimple | Examples</title>
   </head>
   <body class="bg-gray-100 text-slate-800">
-    <section class="container mx-auto">
+    <section class="container px-16 mx-auto">
       <h1 class="text-64 font-bold text-blue-500 mt-64">
         <img src="/favicon.svg" class='w-64 h-64' alt='logo' width='64' height='64'/>
         jSimple
@@ -34,8 +34,8 @@
             </div>
           </div>
         </div>
-        <div class="flex gap-16">
-          <pre class="flex-1 max-w-[50%]"><code class="rounded-md language-javascript">const btn = $.select("#btn");
+        <div class="flex flex-col md:flex-row gap-16">
+          <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">const btn = $.select("#btn");
   const card = $.select("#card");
   const svg = $.select("#svg");
   
@@ -54,7 +54,7 @@
       setIsLoading(false);
     }, 1000);
   });</code></pre>
-            <pre class="flex-1 max-w-[50%]"><code class="rounded-md language-html"><xmp><div class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+            <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
   <button id="btn" class="btn" type="button">
     open card
     <svg id="svg" class="spinner hidden" viewBox="0 0 50 50">
@@ -88,8 +88,8 @@
             </div>
           </div>
         </div>
-        <div class="flex gap-16">
-          <pre class="flex-1 max-w-[50%]"><code class="rounded-md language-javascript">const [isOpen, setIsOpen] = $.signal(false);
+        <div class="flex flex-col md:flex-row gap-16">
+          <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">const [isOpen, setIsOpen] = $.signal(false);
 const [isLoading, setIsLoading] = $.signal(false);
 
 const toggleCard = () => {
@@ -104,7 +104,7 @@ DOMRender(
   { isOpen, setIsOpen, isLoading, setIsLoading, toggleCard },
   $.select("#section")!
 );</code></pre>
-        <pre class="flex-1 max-w-[50%]"><code class="rounded-md language-html"><xmp><div id="section" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+        <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div id="section" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
   <button $click="toggleCard()" class="btn" type="button">
     open card
     <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
@@ -124,8 +124,8 @@ DOMRender(
       <article class="p-16 rounded-md shadow bg-white my-16">
         <h3 class="text-24 font-bold">With the dom rendering package</h3>
         <fancy-toggle></fancy-toggle>
-        <div class="flex gap-16">
-          <pre class="flex-1 max-w-[50%]"><code class="rounded-md language-javascript">@define("fancy-toggle")
+        <div class="flex flex-col md:flex-row gap-16">
+          <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">@define("fancy-toggle")
   export class FancyToggle extends HTMLElement {
     @s(false) isOpenSignal: TSignal<boolean>;
     @s(false) isLoadingSignal: TSignal<boolean>;
@@ -163,7 +163,7 @@ DOMRender(
       </xmp>`);
     }
   }</code></pre>
-          <pre class="flex-1 max-w-[50%]"><code class="rounded-md language-html"><xmp><fancy-toggle></fancy-toggle></xmp></code></pre>
+          <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><fancy-toggle></fancy-toggle></xmp></code></pre>
         </div>
       </article>
     </section>
