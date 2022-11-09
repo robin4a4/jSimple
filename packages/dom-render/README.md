@@ -33,11 +33,11 @@ DOMRender({isOpen, setIsOpen}, $.select("#app"))
 
 ### DOMRender
 
-This packages consists of a tree walker that add effects to rerender the dom.
+This packages consists of a tree walker that adds effects to rerender the dom.
 
 The `DOMRender` function takes two arguments:
-- a context object consiting of the variables and functions that are called in the dom.
-- a mount element to identifiy wich part should be scanned
+- a context object consisting of the variables and functions that are called in the dom.
+- a mount element to identify which part should be scanned
 
 ### Events
 
