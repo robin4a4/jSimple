@@ -54,6 +54,8 @@ btn?.onClick(() => {
 <div id="container"></div>
 ```
 
+You can read more on this package here: [@jsimple/core](https://github.com/robin4a4/jSimple/tree/main/packages/core)
+
 ### DOM-render
 Using the dom-render package you can simplify this markup like the following example. It is heavily inspired by Alpinejs.
 
@@ -74,6 +76,8 @@ const [isOpen, setIsOpen] = $.signal(false);
 DOMRender({isOpen, setIsOpen}, $.select("#app"))
 ```
 
+You can read more on this package here: [@jsimple/dom-render](https://github.com/robin4a4/jSimple/tree/main/packages/dom-render)
+
 ### Custom element
 If you'd like to use the dom-render APIs in custom elements we provide decorators wrappers to abstract some of the plumbing:
 
@@ -88,7 +92,7 @@ import { define, s } from "@jsimple/custom-element";
 
 @define("fancy-button")
 export class FancyButton extends HTMLElement {
-  @signal(false) isOpenSignal: TSignal<boolean>;
+  @s(false) isOpenSignal: TSignal<boolean>;
 
   connectedCallback() {
     this.html(`
@@ -134,78 +138,4 @@ export class FancyButton extends HTMLElement {
 customElements.define("fancy-button", FancyButton);
 ```
 
-## API
-
-### jSimple object
-
-The `jSimple` object or its alias `$` host every utils method.
-
-```
-import $ from "@jsimple/core"
-```
-
-`$.select()`
-
-Accepts a css selector and returns an `HTMLElement`.
-
-`$.selectAll()`
-
-Accepts a css selector and returns an `Array<HTMLElement>`.
-
-`$.create()`
-
-Accepts HTML as a string and returns an `HTMLCollection`.
-
-`$.signal()`
-
-Creates a signal that returns a getter and a setter functions. Allows to create reactive values.
-
-`$.effect()`
-
-Allows to rerun code after a signal has been updated.
-
-### New javascript prototypes
-
-`Array.prototype.first`
-
-Retrieve the first element in an Array.
-
-`Array.prototype.last`
-
-Retrieve the last element in an Array.
-
-`NodeList.prototype.first`
-
-Retrieve the first element in a NodeList.
-
-`NodeList.prototype.last`
-
-Retrieve the last element in a NodeList.
-
-`HTMLElement.prototype.addClass`
-
-Add a class to an HTMLElement.
-
-`HTMLElement.prototype.removeClass`
-
-Remove a class to an HTMLElement.
-
-`HTMLElement.prototype.toggleClass`
-
-Toggle a class to an HTMLElement.
-
-`HTMLElement.prototype.html`
-
-Replace the content of an HTMLElement.
-
-`HTMLElement.prototype.empty`
-
-Empty the content of an HTMLElement.
-
-`HTMLElement.prototype.on` 
-
-Attach an event listener to an HTMLElement.
-
-`HTMLElement.prototype.onClick`
-
-Attach an click event listener to an HTMLElement.
+You can read more on this package here: [@jsimple/custom-element](https://github.com/robin4a4/jSimple/tree/main/packages/custom-element)
