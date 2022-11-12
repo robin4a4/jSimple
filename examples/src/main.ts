@@ -1,11 +1,11 @@
 import $, { TSignal } from "@jsimple/core";
-import { DOMRender, run } from "@jsimple/dom-render";
+import { run } from "@jsimple/dom-render";
 import { define, s, callback } from "@jsimple/custom-element";
 import { GET, load } from "@jsimple/fetcher";
 
 type TodoData = {
   id: number;
-  title: string;
+  name: string;
   body: string;
   userId: number;
 };

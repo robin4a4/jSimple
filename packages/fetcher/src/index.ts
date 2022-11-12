@@ -14,36 +14,39 @@ enum RequesterType {
   Xml = "XML",
 }
 interface RequesterOptions {
-  type: RequesterType;
-  method?: RequesterMethods;
-  headers: {
+  type?: RequesterType;
+  method: RequesterMethods;
+  headers?: {
     Accept: string;
     "Content-Type": string;
     Authorization: string;
   };
   body?: string;
 }
+
+type CRUDOptionType = Omit<RequesterOptions, "method">;
+
 const jsonResponse = (response: Response) => response.json();
 const xmlResponse = (response: Response) => response.text();
 
-async function requester<TData>(url: string, options?: RequesterOptions) {
+async function requester<TData>(url: string, options: RequesterOptions) {
   let resultFunction = jsonResponse;
   if (options?.type === RequesterType.Xml) resultFunction = xmlResponse;
 
-  const response = await fetch(url, { method: "GET", ...options });
+  const response = await fetch(url, options);
   return resultFunction(response) as Promise<TData>;
 }
 
-export function GET<TData>(url: string, options: RequesterOptions) {
+export function GET<TData>(url: string, options?: CRUDOptionType) {
   return requester<TData>(url, { method: RequesterMethods.Get, ...options });
 }
-export function POST<TData>(url: string, options: RequesterOptions) {
+export function POST<TData>(url: string, options?: CRUDOptionType) {
   return requester<TData>(url, { method: RequesterMethods.Post, ...options });
 }
-export function PUT<TData>(url: string, options: RequesterOptions) {
+export function PUT<TData>(url: string, options?: CRUDOptionType) {
   return requester<TData>(url, { method: RequesterMethods.Put, ...options });
 }
-export function DELETE<TData>(url: string, options: RequesterOptions) {
+export function DELETE<TData>(url: string, options?: CRUDOptionType) {
   return requester<TData>(url, { method: RequesterMethods.Delete, ...options });
 }
 
