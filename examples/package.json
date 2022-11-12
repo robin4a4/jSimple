@@ -12,6 +12,7 @@
     "@jsimple/custom-element": "workspace:*",
     "@jsimple/dom-render": "workspace:*",
     "@jsimple/core": "workspace:*",
+    "@jsimple/fetcher": "workspace:*",
     "autoprefixer": "^10.4.12",
     "postcss": "^8.4.18",
     "riot-tmpl": "^3.0.8",

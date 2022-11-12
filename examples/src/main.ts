@@ -1,6 +1,29 @@
 import $, { TSignal } from "@jsimple/core";
-import { DOMRender } from "@jsimple/dom-render";
+import { DOMRender, run } from "@jsimple/dom-render";
 import { define, s, callback } from "@jsimple/custom-element";
+import { GET, load } from "@jsimple/fetcher";
+
+type TodoData = {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+};
+
+const getTodos = GET<TodoData>(
+  "https://jsonplaceholder.typicode.com/comments/1"
+);
+
+function ComponentWithData() {
+  const { data, isLoading } = load(getTodos, ["keyString"]);
+  return {
+    name: data()?.name,
+    body: data()?.body,
+    isLoading,
+  };
+}
+
+run([ComponentWithData]);
 
 const btn1 = $.select("#btn1");
 const svg1 = $.select("#svg1");
@@ -25,21 +48,28 @@ btn1?.onClick(() => {
   }, 1000);
 });
 
-const [isOpen2, setIsOpen2] = $.signal(false);
-const [isLoading2, setIsLoading2] = $.signal(false);
+function CardComponent() {
+  const [isOpen2, setIsOpen2] = $.signal(false);
+  const [isLoading2, setIsLoading2] = $.signal(false);
 
-const toggleCard = () => {
-  setIsLoading2(true);
-  setTimeout(() => {
-    setIsOpen2(!isOpen2());
-    setIsLoading2(false);
-  }, 1000);
-};
+  const toggleCard = () => {
+    setIsLoading2(true);
+    setTimeout(() => {
+      setIsOpen2(!isOpen2());
+      setIsLoading2(false);
+    }, 1000);
+  };
 
-DOMRender(
-  { isOpen2, setIsOpen2, isLoading2, setIsLoading2, toggleCard },
-  $.select("#section2")!
-);
+  return {
+    isOpen2,
+    setIsOpen2,
+    isLoading2,
+    setIsLoading2,
+    toggleCard,
+  };
+}
+
+run([CardComponent]);
 
 @define("fancy-toggle")
 export class FancyToggle extends HTMLElement {

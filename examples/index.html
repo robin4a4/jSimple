@@ -45,6 +45,7 @@
         </div>
         <div class="flex flex-col md:flex-row gap-16">
           <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">import $ from "@jsimple/core";
+
 const btn = $.select("#btn");
 const card = $.select("#card");
 const svg = $.select("#svg");
@@ -64,17 +65,17 @@ btn.onClick(() => {
     setIsLoading(false);
   }, 1000);
 });</code></pre>
-            <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+            <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div class="wrapper">
   <button id="btn" class="btn" type="button">
     open card
     <svg id="svg" class="spinner hidden" viewBox="0 0 50 50">
       <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
     </svg>
   </button>
-  <div id="card" class="shadow-md border border-gray-200 rounded-md w-[300px] overflow-hidden">
-    <img class="w-full h-96 object-cover" src="https://images.unsplash.com/photo-1667509183423-3dc91386c055?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
-    <div class="p-16 text-slate-700">
-      <p class="font-bold uppercase text-14 text-slate-900">Title</p>
+  <div id="card" class="card">
+    <img src="https://images.unsplash.com/photo-1667509183423-3dc91386c055?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
+    <div class="text">
+      <p class="title">Title</p>
       Loren ipsun dolor sit anet, consectetur adipisci elit, sed eiusnod tenpor incidunt ut labore et dolore nagna aliqua. Ut enin ad ninin venian, quis nostrun exercitationen ullan corporis suscipit laboriosan.
     </div>
   </div>
@@ -83,7 +84,7 @@ btn.onClick(() => {
       </article>
       <article class="p-16 rounded-md shadow bg-white my-16">
         <h3 class="text-24 font-bold">With the dom rendering package</h3>
-        <div id="section2" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+        <div data-define="card-component" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
           <button $click="toggleCard()" class="btn" type="button">
             open card
             <svg $display="isLoading2()" class="spinner" viewBox="0 0 50 50">
@@ -100,34 +101,85 @@ btn.onClick(() => {
         </div>
         <div class="flex flex-col md:flex-row gap-16">
           <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">import $ from "@jsimple/core";
-import { DOMRender } from "@jsimple/dom-render";
-const [isOpen, setIsOpen] = $.signal(false);
-const [isLoading, setIsLoading] = $.signal(false);
+import { run } from "@jsimple/dom-render";
 
-const toggleCard = () => {
-  setIsLoading(true);
-  setTimeout(() => {
-    setIsOpen(!isOpen());
-    setIsLoading(false);
-  }, 1000);
-};
+function CardComponent() {
+  const [isOpen, setIsOpen] = $.signal(false);
+  const [isLoading, setIsLoading] = $.signal(false);
 
-DOMRender(
-  { isOpen, setIsOpen, isLoading, setIsLoading, toggleCard },
-  $.select("#section")!
-);</code></pre>
-        <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div id="section" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+  const toggleCard = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsOpen(!isOpen());
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  return {
+    isOpen,
+    setIsOpen,
+    isLoading,
+    setIsLoading,
+    toggleCard,
+  };
+}
+
+run([CardComponent]);</code></pre>
+        <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div data-define="card-component" class="wrapper">
   <button $click="toggleCard()" class="btn" type="button">
     open card
     <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
       <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
     </svg>
   </button>
-  <div $display="isOpen()" class="shadow-md border border-gray-200 rounded-md w-[300px] overflow-hidden">
-    <img class="w-full h-96 object-cover" src="https://images.unsplash.com/photo-1667693790254-cf2fda33c8bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3132&q=80">
-    <div class="p-16 text-slate-700">
-      <p class="font-bold uppercase text-14 text-slate-900">Title</p>
+  <div $display="isOpen()" class="card">
+    <img src="https://images.unsplash.com/photo-1667693790254-cf2fda33c8bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3132&q=80">
+    <div class="text">
+      <p class="title">Title</p>
       Loren ipsun dolor sit anet, consectetur adipisci elit, sed eiusnod tenpor incidunt ut labore et dolore nagna aliqua. Ut enin ad ninin venian, quis nostrun exercitationen ullan corporis suscipit laboriosan.
+    </div>
+  </div>
+</div></xmp></code></pre>
+        </div>
+      </article>
+      <article class="p-16 rounded-md shadow bg-white my-16">
+        <h3 class="text-24 font-bold">With the load() function</h3>
+        <div data-define="component-with-data" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+          <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
+            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+          </svg>
+          <div $display="!isLoading()" class="shadow-md border border-gray-200 rounded-md w-[300px] overflow-hidden">
+            <img class="w-full h-96 object-cover" src="https://images.unsplash.com/photo-1652381791214-dbe3ee8bbb28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
+            <div class="p-16 text-slate-700">
+              <p class="font-bold uppercase text-14 text-slate-900">{name}</p>
+              {body}
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col md:flex-row gap-16">
+          <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">import { GET, load } from "@jsimple/fetcher";
+
+const getTodos = GET<TodoData>("https://jsonplaceholder.typicode.com/comments/1");
+
+function ComponentWithData() {
+  const { data, isLoading } = load(getTodos, ["keyString"]);
+  return {
+    name: data()?.name,
+    body: data()?.body,
+    isLoading,
+  };
+}
+  
+run([ComponentWithData]);</code></pre>
+        <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div data-define="component-with-data" class="component">
+  <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
+    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+  </svg>
+  <div $display="!isLoading()" class="card">
+    <img class="w-full h-96 object-cover" src="https://images.unsplash.com/photo-1652381791214-dbe3ee8bbb28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
+    <div class="p-16 text-slate-700">
+      <p class="font-bold uppercase text-14 text-slate-900">{name}</p>
+      {body}
     </div>
   </div>
 </div></xmp></code></pre>
@@ -138,6 +190,7 @@ DOMRender(
         <fancy-toggle></fancy-toggle>
         <div class="flex flex-col md:flex-row gap-16">
           <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-javascript">import { define, s, callback } from "@jsimple/custom-element";
+
 @define("fancy-toggle")
 export class FancyToggle extends HTMLElement {
   @s(false) isOpenSignal: TSignal<boolean>;
@@ -158,17 +211,17 @@ export class FancyToggle extends HTMLElement {
 
   connectedCallback() {
     this.html(`<xmp>
-      <div class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
+      <div class="wrapper">
         <button $click="toggleCard()" class="btn" type="button">
           open card
           <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
             <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
           </svg>
         </button>
-        <div $display="isOpen()" class="shadow-md border border-gray-200 rounded-md w-[300px] overflow-hidden">
-          <img class="w-full h-96 object-cover" src="https://images.unsplash.com/photo-1667693790254-cf2fda33c8bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3132&q=80">
-          <div class="p-16 text-slate-700">
-            <p class="font-bold uppercase text-14 text-slate-900">Title</p>
+        <div $display="isOpen()" class="card">
+          <img src="https://images.unsplash.com/photo-1667693790254-cf2fda33c8bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3132&q=80">
+          <div class="text">
+            <p class="title">Title</p>
             Loren ipsun dolor sit anet, consectetur adipisci elit, sed eiusnod tenpor incidunt ut labore et dolore nagna aliqua. Ut enin ad ninin venian, quis nostrun exercitationen ullan corporis suscipit laboriosan.
           </div>
         </div>

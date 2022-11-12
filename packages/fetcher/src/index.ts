@@ -1,3 +1,5 @@
+import $, { TSignal } from "@jsimple/core";
+
 /**
  * Data fetching
  */
@@ -24,33 +26,63 @@ interface RequesterOptions {
 const jsonResponse = (response: Response) => response.json();
 const xmlResponse = (response: Response) => response.text();
 
-async function requester(url: string, options?: RequesterOptions) {
-  const results: { content: Promise<any> | null; error: Error | null } = {
-    content: null,
-    error: null,
-  }; // TODO: better type
-
+async function requester<TData>(url: string, options?: RequesterOptions) {
   let resultFunction = jsonResponse;
   if (options?.type === RequesterType.Xml) resultFunction = xmlResponse;
 
   const response = await fetch(url, { method: "GET", ...options });
-  if (response.ok) {
-    results.content = await resultFunction(response);
-  } else {
-    results.error = new Error("server error");
-  }
-  return results;
+  return resultFunction(response) as Promise<TData>;
 }
 
-export function GET(url: string, options: RequesterOptions) {
-  return requester(url, { method: RequesterMethods.Get, ...options });
+export function GET<TData>(url: string, options: RequesterOptions) {
+  return requester<TData>(url, { method: RequesterMethods.Get, ...options });
 }
-export function POST(url: string, options: RequesterOptions) {
-  return requester(url, { method: RequesterMethods.Post, ...options });
+export function POST<TData>(url: string, options: RequesterOptions) {
+  return requester<TData>(url, { method: RequesterMethods.Post, ...options });
 }
-export function PUT(url: string, options: RequesterOptions) {
-  return requester(url, { method: RequesterMethods.Put, ...options });
+export function PUT<TData>(url: string, options: RequesterOptions) {
+  return requester<TData>(url, { method: RequesterMethods.Put, ...options });
 }
-export function DELETE(url: string, options: RequesterOptions) {
-  return requester(url, { method: RequesterMethods.Delete, ...options });
+export function DELETE<TData>(url: string, options: RequesterOptions) {
+  return requester<TData>(url, { method: RequesterMethods.Delete, ...options });
 }
+
+/**
+ * Query management (like a super tiny tanstack-query)
+ * @param promise
+ * @param key
+ * @returns
+ */
+export const load = <TData>(
+  promise: Promise<TData>,
+  key: Array<string | TSignal<any>>
+) => {
+  const [data, setData] = $.signal<TData | null>(null);
+  const [isLoading, setIsLoading] = $.signal(true);
+  const [isError, setIsError] = $.signal(false);
+  const [error, setError] = $.signal(null);
+  const stringifiedKey = JSON.stringify(key);
+  const cachedData = sessionStorage.getItem(stringifiedKey);
+  if (!cachedData) {
+    promise
+      .then((data) => {
+        setData(data);
+        sessionStorage.setItem(stringifiedKey, JSON.stringify(data));
+      })
+      .catch((err) => {
+        setIsError(true);
+        setError(err);
+      })
+      .finally(() => setIsLoading(false));
+  } else {
+    setData(JSON.parse(cachedData));
+    setIsLoading(false);
+  }
+
+  return {
+    data,
+    isLoading,
+    isError,
+    error,
+  };
+};

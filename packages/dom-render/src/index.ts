@@ -9,7 +9,7 @@ import $ from "@jsimple/core";
  *       - remove tmpl dependency
  */
 interface HTMLElementWithData extends HTMLElement {
-  data: string;
+  data?: string;
 }
 
 export function DOMRender<TContext>(
@@ -57,12 +57,27 @@ function processNode<TContext>(el: HTMLElementWithData, context: TContext) {
   }
   // text node
   else if (type === 3) {
-    if (tmpl.hasExpr(el.data)) {
+    if (tmpl.hasExpr(el.data) && el.data) {
       if (/(\(.*\))?(\.)?/g.test(el.data)) {
         $.effect(() => {
-          el.data = tmpl(el.data, context);
+          const expr = tmpl(el.data, context);
+          if (expr) {
+            el.data = expr;
+          }
         });
       } else el.data = tmpl(el.data, context);
     }
   }
+}
+
+export function run<TContext>(funcArray: Array<() => TContext>) {
+  funcArray.forEach((func) => {
+    const mountEl = $.select(
+      `[data-define='${func.name
+        .replace(/([a-z0–9])([A-Z])/g, "$1-$2")
+        .toLowerCase()}']`
+    );
+    if (!mountEl) return;
+    DOMRender<TContext>(func(), mountEl);
+  });
 }
