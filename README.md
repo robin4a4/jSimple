@@ -61,7 +61,7 @@ Using the dom-render package you can simplify this markup like the following exa
 
 ```html
 <!-- HTML file-->
-<div id="app">
+<div data-define="app-component">
   <button id="btn" type="button" $click="setIsOpen(!isOpen())">open</button>
   <div $display="isOpen()">lorem ipsum</div>
 </div>
@@ -72,8 +72,23 @@ Using the dom-render package you can simplify this markup like the following exa
 import $ from "@jsimple/core";
 import { DOMRender } from "@jsimple/dom-render";
 
+function AppComponent() {
+  const [isOpen, setIsOpen] = $.signal(false);
+  return {isOpen, setIsOpen}
+}
+
+run([AppComponent])
+```
+
+or without the run function:
+
+```javascript
+// Javascript file
+import $ from "@jsimple/core";
+import { DOMRender } from "@jsimple/dom-render";
+
 const [isOpen, setIsOpen] = $.signal(false);
-DOMRender({isOpen, setIsOpen}, $.select("#app"))
+DOMRender({isOpen, setIsOpen}, $.select("[data-define='app']"))
 ```
 
 You can read more on this package here: [@jsimple/dom-render](https://github.com/robin4a4/jSimple/tree/main/packages/dom-render)
