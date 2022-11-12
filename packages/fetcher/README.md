@@ -18,8 +18,8 @@ Using the fetcher package you can fetch and cache data easily.
     <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
   </svg>
   <div $display="!isLoading()" class="card">
-    <p class="title">{name}</p>
-    {body}
+    <p class="font-bold uppercase text-14 text-slate-900">{data()?.name}</p>
+    <span>{data()?.body}</span>
   </div>
 </div>
 ```
@@ -34,8 +34,7 @@ const getTodos = GET<TodoData>("https://jsonplaceholder.typicode.com/comments/1"
 function ComponentWithData() {
   const { data, isLoading } = load(getTodos, ["keyString"]);
   return {
-    name: data()?.name,
-    body: data()?.body,
+    data,
     isLoading,
   };
 }

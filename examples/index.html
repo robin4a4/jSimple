@@ -151,8 +151,8 @@ run([CardComponent]);</code></pre>
           <div $display="!isLoading()" class="shadow-md border border-gray-200 rounded-md w-[300px] overflow-hidden">
             <img class="w-full h-96 object-cover" src="https://images.unsplash.com/photo-1652381791214-dbe3ee8bbb28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
             <div class="p-16 text-slate-700">
-              <p class="font-bold uppercase text-14 text-slate-900">{name}</p>
-              {body}
+              <p class="font-bold uppercase text-14 text-slate-900">{data()?.name}</p>
+              <span>{data()?.body}</span>
             </div>
           </div>
         </div>
@@ -165,8 +165,7 @@ const getTodos = GET<TodoData>("https://jsonplaceholder.typicode.com/comments/1"
 function ComponentWithData() {
   const { data, isLoading } = load(getTodos, ["keyString"]);
   return {
-    name: data()?.name,
-    body: data()?.body,
+    data,
     isLoading,
   };
 }
@@ -179,8 +178,8 @@ run([ComponentWithData]);</code></pre>
   <div $display="!isLoading()" class="card">
     <img src="https://images.unsplash.com/photo-1652381791214-dbe3ee8bbb28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
     <div class="text">
-      <p class="title">{name}</p>
-      {body}
+      <p class="font-bold uppercase text-14 text-slate-900">{data()?.name}</p>
+      <span>{data()?.body}</span>
     </div>
   </div>
 </div></xmp></code></pre>

@@ -17,8 +17,7 @@ const getTodos = GET<TodoData>(
 function ComponentWithData() {
   const { data, isLoading } = load(getTodos, ["keyString"]);
   return {
-    name: data()?.name,
-    body: data()?.body,
+    data,
     isLoading,
   };
 }
