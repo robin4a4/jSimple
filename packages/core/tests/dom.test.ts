@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
 import { expect, test } from "vitest";
 import $ from "../src";
-// import { getByLabelText, getByText } from "@testing-library/dom";
 
 function domExample() {
   const div = document.createElement("div");
