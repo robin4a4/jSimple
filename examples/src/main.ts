@@ -49,13 +49,16 @@ btn1?.onClick(() => {
 
 function CardComponent() {
   const [isOpen2, setIsOpen2] = $.signal(false);
+  const [buttonBg, setButtonBg] = $.signal("bg-red-500");
   const [isLoading2, setIsLoading2] = $.signal(false);
 
   const toggleCard = () => {
     setIsLoading2(true);
+    setButtonBg("bg-green-500");
     setTimeout(() => {
       setIsOpen2(!isOpen2());
       setIsLoading2(false);
+      setButtonBg("bg-red-500");
     }, 1000);
   };
 
@@ -65,6 +68,8 @@ function CardComponent() {
     isLoading2,
     setIsLoading2,
     toggleCard,
+    buttonBg,
+    setButtonBg,
   };
 }
 

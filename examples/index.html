@@ -85,7 +85,7 @@ btn.onClick(() => {
       <article class="p-16 rounded-md shadow bg-white my-16">
         <h3 class="text-24 font-bold">With the dom rendering package</h3>
         <div data-define="card-component" class="border border-gray-200 rounded-md flex flex-col gap-16 justify-center items-center p-32 my-16">
-          <button $click="toggleCard()" class="btn" type="button">
+          <button $click="toggleCard()" :class="btn {buttonBg()}" type="button">
             open card
             <svg $display="isLoading2()" class="spinner" viewBox="0 0 50 50">
               <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
@@ -106,12 +106,15 @@ import { run } from "@jsimple/dom-render";
 function CardComponent() {
   const [isOpen, setIsOpen] = $.signal(false);
   const [isLoading, setIsLoading] = $.signal(false);
+  const [buttonBg, setButtonBg] = $.signal("bg-red-500");
 
   const toggleCard = () => {
     setIsLoading(true);
+    setButtonBg("bg-green-500");
     setTimeout(() => {
       setIsOpen(!isOpen());
       setIsLoading(false);
+      setButtonBg("bg-red-500");
     }, 1000);
   };
 
@@ -121,12 +124,14 @@ function CardComponent() {
     isLoading,
     setIsLoading,
     toggleCard,
+    buttonBg,
+    setButtonBg
   };
 }
 
 run([CardComponent]);</code></pre>
         <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div data-define="card-component" class="wrapper">
-  <button $click="toggleCard()" class="btn" type="button">
+  <button $click="toggleCard()" :class="btn {buttonBg()}" type="button">
     open card
     <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
       <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>

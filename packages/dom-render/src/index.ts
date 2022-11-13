@@ -35,8 +35,8 @@ function processNode<TContext>(el: HTMLElementWithData, context: TContext) {
   // element
   if (type === 1) {
     for (const { name, value } of [...el.attributes]) {
+      const jAttr = name.slice(1);
       if (name[0] === "$") {
-        const jAttr = name.slice(1);
         const eventList = [
           "click",
           "mouseover",
@@ -46,12 +46,21 @@ function processNode<TContext>(el: HTMLElementWithData, context: TContext) {
         ];
         if (eventList.find((eventName) => eventName === jAttr)) {
           el.addEventListener(jAttr, () => tmpl(`{${value}}`, context));
+          el.removeAttribute(name);
         }
         if (jAttr === "display") {
           $.effect(() => {
             el.style.display = tmpl(`{${value}}`, context) ? "block" : "none";
           });
+          el.removeAttribute(name);
         }
+      }
+      if (name[0] === ":") {
+        const attrValue = el.getAttribute(name);
+        el.removeAttribute(name);
+        $.effect(() => {
+          el.setAttribute(jAttr, tmpl(attrValue, context));
+        });
       }
     }
   }

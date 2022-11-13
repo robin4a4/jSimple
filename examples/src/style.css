@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
+@layer components {
     .btn {
-        @apply flex items-center gap-8 bg-blue-500 px-32 py-16 font-bold text-white rounded-md hover:bg-blue-600 transition;
+        @apply flex items-center gap-8 bg-blue-500 px-32 py-16 font-bold text-white rounded-md transition;
     }
 
 }
