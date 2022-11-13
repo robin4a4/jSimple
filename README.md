@@ -1,5 +1,5 @@
 # jSimple
-An small experimental library inspired by jQuery, Solidjs and @github/catalyst. It can't be used in production as it is not fully typesafe, tested and robust.
+An small experimental library inspired by jQuery, Solidjs and @github/catalyst. It **can't be used in production** as it is not fully typesafe, tested and robust.
 
 ## Get started
 To install the core library enter the following command:
@@ -20,6 +20,11 @@ To install the additional custom element library enter the following command:
 npm install @jsimple/custom-element
 ```
 
+If you need to fetch data and cache it the fetcher package is here for you:
+
+```
+npm install @jsimple/fetcher
+```
 
 ## Example
 
@@ -154,3 +159,38 @@ customElements.define("fancy-button", FancyButton);
 ```
 
 You can read more on this package here: [@jsimple/custom-element](https://github.com/robin4a4/jSimple/tree/main/packages/custom-element)
+
+### Fetcher
+
+Using the fetcher package you can fetch and cache data easily.
+
+```html
+<!-- HTML file-->
+<div data-define="component-with-data" class="component">
+  <img src="./spinner.svg" $display="isLoading()" class="spinner" width=24 height=24 alt='spinner'/>
+  <div $display="!isLoading()" class="card">
+    <p class="font-bold uppercase text-14 text-slate-900">{data()?.name}</p>
+    <span>{data()?.body}</span>
+  </div>
+</div>
+```
+
+```javascript
+// Javascript file
+import { run } from "@jsimple/dom-render";
+import { GET, load } from "@jsimple/fetcher";
+
+const getTodos = GET<TodoData>("https://jsonplaceholder.typicode.com/comments/1");
+
+function ComponentWithData() {
+  const { data, isLoading } = load(getTodos, ["keyString"]);
+  return {
+    data,
+    isLoading,
+  };
+}
+  
+run([ComponentWithData]);
+```
+
+You can read more on this package here: [@jsimple/fetcher](https://github.com/robin4a4/jSimple/tree/main/packages/fetcher)

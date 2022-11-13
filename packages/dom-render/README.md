@@ -81,6 +81,8 @@ function MyThirdFancyComponent() {
 run([MyFancyComponent, MySecondFancyComponent, MyThirdFancyComponent])
 ```
 
+If you plan to minify your code you'll have to set the esbuild option `keepNames` to true as the code needs the real function name to infer the component to be walked.
+
 ### Events
 
 you can use `$click`, `$mouseover`, `$mouseout`, `$change`, `$keydown` to add event listeners to your elements.

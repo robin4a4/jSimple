@@ -68,9 +68,7 @@ btn.onClick(() => {
             <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div class="wrapper">
   <button id="btn" class="btn" type="button">
     open card
-    <svg id="svg" class="spinner hidden" viewBox="0 0 50 50">
-      <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-    </svg>
+    <img id="svg" src="./spinner.svg" class="spinner" width=24 height=24 alt='spinner'/>
   </button>
   <div id="card" class="card">
     <img src="https://images.unsplash.com/photo-1667509183423-3dc91386c055?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
@@ -133,9 +131,7 @@ run([CardComponent]);</code></pre>
         <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div data-define="card-component" class="wrapper">
   <button $click="toggleCard()" :class="btn {buttonBg()}" type="button">
     open card
-    <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
-      <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-    </svg>
+    <img src="./spinner.svg" $display="isLoading()" class="spinner" width=24 height=24 alt='spinner'/>
   </button>
   <div $display="isOpen()" class="card">
     <img src="https://images.unsplash.com/photo-1667693790254-cf2fda33c8bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3132&q=80">
@@ -177,9 +173,7 @@ function ComponentWithData() {
   
 run([ComponentWithData]);</code></pre>
         <pre class="flex-1 md:max-w-[50%]"><code class="rounded-md language-html"><xmp><div data-define="component-with-data" class="component">
-  <svg $display="isLoading()" class="spinner" viewBox="0 0 50 50">
-    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-  </svg>
+  <img src="./spinner.svg" $display="isLoading()" class="spinner" width=24 height=24 alt='spinner'/>
   <div $display="!isLoading()" class="card">
     <img src="https://images.unsplash.com/photo-1652381791214-dbe3ee8bbb28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80">
     <div class="text">
