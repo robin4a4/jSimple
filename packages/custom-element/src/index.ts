@@ -65,7 +65,7 @@ export const define = (name: string) => {
   };
 };
 
-export function s<TSignalValue>(value: TSignalValue) {
+export function signal<TSignalValue>(value: TSignalValue) {
   return function <K extends string>(proto: Record<K, unknown>, key: K): any {
     if (!key.endsWith("Signal"))
       throw new Error(
