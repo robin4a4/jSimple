@@ -1,7 +1,7 @@
 import $, { TSignal } from "@jsimple/core";
 import { run } from "@jsimple/dom-render";
 import { define, signal, callback } from "@jsimple/custom-element";
-import { GET, load } from "@jsimple/fetcher";
+import { GET, POST, load } from "@jsimple/fetcher";
 
 type TodoData = {
   id: number;
@@ -73,7 +73,16 @@ function CardComponent() {
   };
 }
 
-run([CardComponent]);
+function FormTechwatch() {
+  const [isFormOpen, setIsFormOpen] = $.signal(false);
+
+  return {
+    isFormOpen,
+    setIsFormOpen,
+  };
+}
+
+run([CardComponent, FormTechwatch]);
 
 @define("fancy-toggle")
 export class FancyToggle extends HTMLElement {
@@ -93,3 +102,30 @@ export class FancyToggle extends HTMLElement {
     }, 1000);
   }
 }
+
+export class FullyExtend extends HTMLElement {
+  form: HTMLFormElement | null;
+
+  manageForm() {
+    this.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      if (!this.form) return;
+      const formData = new FormData(this.form);
+      const url = this.form.getAttribute("action");
+      if (url) {
+        POST(url, {
+          body: formData,
+        });
+      }
+    });
+  }
+
+  connectedCallback() {
+    this.form = this.querySelector<HTMLFormElement>("form");
+    if (this.form) {
+      this.manageForm();
+    }
+  }
+}
+
+customElements.define("fully-extend", FullyExtend);
