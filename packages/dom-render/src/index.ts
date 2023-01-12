@@ -79,7 +79,9 @@ function processNode<TContext>(el: HTMLElementWithData, context: TContext) {
   }
 }
 
-export function run<TContext>(funcArray: Array<() => TContext>) {
+export function run<TContext extends (...args: any) => any>(
+  funcArray: Array<ReturnType<TContext>>
+) {
   funcArray.forEach((func) => {
     const mountEl = $.select(
       `[data-define='${func.name
@@ -87,6 +89,6 @@ export function run<TContext>(funcArray: Array<() => TContext>) {
         .toLowerCase()}']`
     );
     if (!mountEl) return;
-    DOMRender<TContext>(func(), mountEl);
+    DOMRender<ReturnType<TContext>>(func(), mountEl);
   });
 }
