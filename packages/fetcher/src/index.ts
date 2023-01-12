@@ -21,7 +21,7 @@ interface RequesterOptions {
     "Content-Type": string;
     Authorization: string;
   };
-  body?: string;
+  body?: URLSearchParams | FormData | Blob | BufferSource;
 }
 
 type CRUDOptionType = Omit<RequesterOptions, "method">;
@@ -37,7 +37,10 @@ async function requester<TData>(url: string, options: RequesterOptions) {
   return resultFunction(response) as Promise<TData>;
 }
 
-export function GET<TData>(url: string, options?: CRUDOptionType) {
+export function GET<TData>(
+  url: string,
+  options?: Omit<CRUDOptionType, "body">
+) {
   return requester<TData>(url, { method: RequesterMethods.Get, ...options });
 }
 export function POST<TData>(url: string, options?: CRUDOptionType) {
